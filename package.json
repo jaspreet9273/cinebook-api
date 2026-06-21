@@ -1,0 +1,57 @@
+{
+    "name": "cinebook-api",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Production-grade movie ticket booking system — microservices with Node.js, Kafka, RabbitMQ, MongoDB, Redis",
+    "author": {
+        "name": "Jaspreet Singh",
+        "email": "jaspreet9273@gmail.com"
+    },
+    "scripts": {
+        "dev": "concurrently --names \"GW,USER,SHOW,BOOK,PAY,NOTIF\" --prefix-colors \"bgBlue,bgGreen,bgYellow,bgMagenta,bgCyan,bgRed\" \"npm run dev --prefix services/api-gateway\" \"npm run dev --prefix services/user-service\" \"npm run dev --prefix services/show-service\" \"npm run dev --prefix services/booking-service\" \"npm run dev --prefix services/payment-service\" \"npm run dev --prefix services/notification-service\"",
+        "dev:gateway": "npm run dev --prefix services/api-gateway",
+        "dev:user": "npm run dev --prefix services/user-service",
+        "dev:show": "npm run dev --prefix services/show-service",
+        "dev:booking": "npm run dev --prefix services/booking-service",
+        "dev:payment": "npm run dev --prefix services/payment-service",
+        "dev:notification": "npm run dev --prefix services/notification-service",
+        "install:all": "npm i --prefix services/api-gateway && npm i --prefix services/user-service && npm i --prefix services/show-service && npm i --prefix services/booking-service && npm i --prefix services/payment-service && npm i --prefix services/notification-service",
+        "build": "npm run build --prefix services/api-gateway && npm run build --prefix services/user-service && npm run build --prefix services/show-service && npm run build --prefix services/booking-service && npm run build --prefix services/payment-service && npm run build --prefix services/notification-service",
+        "build:gateway": "npm run build --prefix services/api-gateway",
+        "build:user": "npm run build --prefix services/user-service",
+        "build:show": "npm run build --prefix services/show-service",
+        "build:booking": "npm run build --prefix services/booking-service",
+        "build:payment": "npm run build --prefix services/payment-service",
+        "build:notification": "npm run build --prefix services/notification-service",
+        "seed": "tsx scripts/seed.ts",
+        "seed:clean": "mongosh movie_booking --eval 'db.dropDatabase()' && npm run seed",
+        "test:all": "npm test --prefix services/user-service && npm test --prefix services/booking-service && npm test --prefix services/show-service && npm test --prefix services/payment-service && npm test --prefix services/notification-service",
+        "test:user": "npm test --prefix services/user-service",
+        "test:booking": "npm test --prefix services/booking-service",
+        "test:show": "npm test --prefix services/show-service",
+        "test:payment": "npm test --prefix services/payment-service",
+        "test:notification": "npm test --prefix services/notification-service",
+        "infra:up": "docker compose -f infra/docker-compose.infra.yml up -d",
+        "infra:down": "docker compose -f infra/docker-compose.infra.yml down",
+        "infra:stop": "docker compose -f infra/docker-compose.infra.yml stop",
+        "infra:restart": "docker compose -f infra/docker-compose.infra.yml restart",
+        "infra:logs": "docker compose -f infra/docker-compose.infra.yml logs -f",
+        "infra:status": "docker compose -f infra/docker-compose.infra.yml ps",
+        "infra:clean": "docker compose -f infra/docker-compose.infra.yml down -v --remove-orphans",
+        "health": "concurrently \"curl -s http://localhost:3000/health | jq .\" \"curl -s http://localhost:3001/health | jq .\" \"curl -s http://localhost:3002/health | jq .\" \"curl -s http://localhost:3003/health | jq .\" \"curl -s http://localhost:3004/health | jq .\"",
+        "health:ready": "curl -s http://localhost:3000/health/ready | jq .",
+        "health:metrics": "curl -s http://localhost:3000/health/metrics",
+        "lint": "eslint 'services/*/src/**/*.ts'",
+        "format": "prettier --write 'services/*/src/**/*.ts'",
+        "clean": "rm -rf services/api-gateway/dist services/user-service/dist services/show-service/dist services/booking-service/dist services/payment-service/dist services/notification-service/dist"
+    },
+    "devDependencies": {
+        "@types/node": "^25.9.3",
+        "concurrently": "^8.2.2",
+        "tsx": "^4.8.2",
+        "typescript": "^5.4.5"
+    },
+    "engines": {
+        "node": ">=20.0.0"
+    }
+}
