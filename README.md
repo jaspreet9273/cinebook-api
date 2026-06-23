@@ -117,7 +117,7 @@ cd services/notification-service && npm test
 ### 1. Clone and install
 
 ```bash
-git clone <your-repo>
+git clone https://github.com/jaspreet9273/cinebook-api.git
 cd cinebook
 npm install
 ```
