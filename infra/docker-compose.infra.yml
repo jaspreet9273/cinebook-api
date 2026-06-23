@@ -1,6 +1,9 @@
+name: cinebook
+
 networks:
   cinebook:
     driver: bridge
+    name: cinebook
 
 volumes:
   mongo-data:
@@ -13,7 +16,7 @@ services:
   # ── MongoDB ──────────────────────────────────────────────────────────────────
   mongodb:
     image: mongo:7.0
-    container_name: mb-mongodb
+    container_name: mongodb
     restart: unless-stopped
     ports:
       - "27017:27017"
@@ -30,7 +33,7 @@ services:
   # ── Redis ────────────────────────────────────────────────────────────────────
   redis:
     image: redis:7.2-alpine
-    container_name: mb-redis
+    container_name: redis
     restart: unless-stopped
     ports:
       - "6379:6379"
@@ -48,7 +51,7 @@ services:
   # ── Zookeeper (needed by Kafka) ───────────────────────────────────────────────
   zookeeper:
     image: confluentinc/cp-zookeeper:7.6.0
-    container_name: mb-zookeeper
+    container_name: zookeeper
     restart: unless-stopped
     ports:
       - "2181:2181"
@@ -63,7 +66,7 @@ services:
   # ── Kafka ─────────────────────────────────────────────────────────────────────
   kafka:
     image: confluentinc/cp-kafka:7.6.0
-    container_name: mb-kafka
+    container_name: kafka
     restart: unless-stopped
     depends_on:
       - zookeeper
@@ -93,7 +96,7 @@ services:
   # ── Kafka UI (browse topics/messages in browser) ──────────────────────────────
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
-    container_name: mb-kafka-ui
+    container_name: kafka-ui
     restart: unless-stopped
     depends_on:
       - kafka
@@ -108,7 +111,7 @@ services:
   # ── RabbitMQ ──────────────────────────────────────────────────────────────────
   rabbitmq:
     image: rabbitmq:3.13-management-alpine
-    container_name: mb-rabbitmq
+    container_name: rabbitmq
     restart: unless-stopped
     ports:
       - "5672:5672" # AMQP
